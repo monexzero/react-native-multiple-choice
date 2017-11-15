@@ -169,6 +169,7 @@ class MultipleChoice extends BaseComponent {
                 style={[Styles.list, this.props.style]}
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow}
+                removeClippedSubviews={false}
             />
         );
     }
