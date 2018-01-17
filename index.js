@@ -1,30 +1,33 @@
 'use strict';
 
-import React, { PropTypes } from 'react'
+import React from 'react'
 import {
   Text,
   TouchableOpacity,
   View,
   Image,
-  ListView
+  ListView,
+  ViewPropTypes
 } from 'react-native';
+import PropTypes from 'prop-types'
 
 import BaseComponent from './BaseComponent'
 import Styles from './styles'
 
 const propTypes = {
-    options: React.PropTypes.array.isRequired,
-    selectedOptions: React.PropTypes.array,
-    maxSelectedOptions: React.PropTypes.number,
-    onSelection: React.PropTypes.func,
-    renderIndicator: React.PropTypes.func,
-    renderSeparator: React.PropTypes.func,
-    renderRow: React.PropTypes.func,
-    renderText: React.PropTypes.func,
-    style: View.propTypes.style,
-    optionStyle: View.propTypes.style,
+    options: PropTypes.array.isRequired,
+    selectedOptions: PropTypes.array,
+    maxSelectedOptions: PropTypes.number,
+    onSelection: PropTypes.func,
+    renderIndicator: PropTypes.func,
+    renderSeparator: PropTypes.func,
+    renderRow: PropTypes.func,
+    renderText: PropTypes.func,
+    style: ViewPropTypes.style,
+    optionStyle: ViewPropTypes.style,
     disabled: PropTypes.bool
 };
+
 const defaultProps = {
     options: [],
     selectedOptions: [],
@@ -35,7 +38,6 @@ const defaultProps = {
 };
 
 class MultipleChoice extends BaseComponent {
-
     constructor(props) {
         super(props);
 
@@ -62,6 +64,7 @@ class MultipleChoice extends BaseComponent {
             disabled: nextProps.disabled
         });
     }
+
     _updateSelectedOptions(selectedOptions) {
         this.setState({
             selectedOptions,
@@ -80,14 +83,14 @@ class MultipleChoice extends BaseComponent {
         this._updateSelectedOptions(selectedOptions);
     }
 
-    _selectOption(selectedOption) {
+    _selectOption(rowID) {
 
         let selectedOptions = this.state.selectedOptions;
-        const index = selectedOptions.indexOf(selectedOption);
+        const index = selectedOptions.indexOf(rowID);
 
         if (index === -1) {
             this._validateMaxSelectedOptions();
-            selectedOptions.push(selectedOption);
+            selectedOptions.push(rowID);
         } else {
             selectedOptions.splice(index, 1);
         }
@@ -95,15 +98,15 @@ class MultipleChoice extends BaseComponent {
         this._updateSelectedOptions(selectedOptions);
 
         //run callback
-        this.props.onSelection(selectedOption);
+        this.props.onSelection(rowID);
     }
 
-    _isSelected(option) {
-        return this.state.selectedOptions.indexOf(option) !== -1;
+    _isSelected(rowID) {
+        return this.state.selectedOptions.indexOf(rowID) != -1;
     }
 
-    _renderIndicator(option) {
-        if (this._isSelected(option)) {
+    _renderIndicator(option, rowID) {
+        if (this._isSelected(rowID)) {
             if(typeof this.props.renderIndicator === 'function') {
                 return this.props.renderIndicator(option);
             }
@@ -118,7 +121,6 @@ class MultipleChoice extends BaseComponent {
     }
 
     _renderSeparator(option) {
-
         if(typeof this.props.renderSeparator === 'function') {
             return this.props.renderSeparator(option);
         }
@@ -135,8 +137,7 @@ class MultipleChoice extends BaseComponent {
         return (<Text>{option}</Text>);
     }
 
-    _renderRow(option) {
-
+    _renderRow(option, sectionID, rowID) {
         if(typeof this.props.renderRow === 'function') {
             return this.props.renderRow(option);
         }
@@ -147,14 +148,14 @@ class MultipleChoice extends BaseComponent {
             <View style={this.props.optionStyle}>
                 <TouchableOpacity
                     activeOpacity={disabled ? 1 : 0.7}
-                    onPress={!disabled ? ()=>{this._selectOption(option)} : null}
+                    onPress={!disabled ? ()=>{this._selectOption(rowID)} : null}
                 >
                     <View>
                         <View
                             style={Styles.row}
                         >
                             <View style={Styles.optionLabel}>{this._renderText(option)}</View>
-                            <View style={Styles.optionIndicator}>{this._renderIndicator(option)}</View>
+                            <View style={Styles.optionIndicator}>{this._renderIndicator(option, rowID)}</View>
                         </View>
                     </View>
                 </TouchableOpacity>
