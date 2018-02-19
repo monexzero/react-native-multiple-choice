@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types'
 
-import BaseComponent from './BaseComponent'
-import Styles from './styles'
+import BaseComponent from './BaseComponent';
+import Styles from './styles';
 
 const propTypes = {
     options: PropTypes.array.isRequired,

@@ -1,5 +1,10 @@
+
 # react-native-multiple-choice
 A cross-platform (iOS / Android) single and multiple-choice React Native component.
+
+## Notice: Forked version with the following changes
+- prop-types has been separated out to its own component.  This is for compatibility with React Native 0.44 and above
+- The answers are indexed using a rowID instead of their text value.
 
 ## Install
 
@@ -20,9 +25,9 @@ Here is an overview of the component usage.
     'Lorem ipsum dolor sit amet, consetetur',
     'Lorem ipsum dolor'
     ]}
-    selectedOptions={['Lorem ipsum']}
+    selectedOptions={[1]}
     maxSelectedOptions={2}
-    onSelection={(option)=>alert(option + ' was selected!')}
+    onSelection={(rowID)=>alert(rowID + ' was selected!')}
 />
 ```
 
@@ -31,7 +36,7 @@ Here is an overview of the component usage.
 * `style - {}` custom style of the list
 * `optionStyle - {}` custom style of the option element
 * `options - []` required array of options
-* `selectedOptions - []` optional array of initially selected options
+* `selectedOptions - []` optional array of initially selected options by rowID
 * `maxSelectedOptions - int` optional maximum number of selectable options
 * `onSelection - function(option){}` option selection callback
 * `renderIndicator - function(option)` should return a selected/deselected indicator node, default: check mark image
