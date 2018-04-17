@@ -59,16 +59,16 @@ class MultipleChoice extends BaseComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        this._updateSelectedOptions(nextProps.selectedOptions);
+        this._updateSelectedOptions(nextProps.selectedOptions, nextProps.options);
         this.setState({
             disabled: nextProps.disabled
         });
     }
 
-    _updateSelectedOptions(selectedOptions) {
+    _updateSelectedOptions(selectedOptions, options=this.props.options) {
         this.setState({
             selectedOptions,
-            dataSource: this.ds.cloneWithRows(this.props.options)
+            dataSource: this.ds.cloneWithRows(options)
         });
     }
 
