@@ -65,7 +65,7 @@ class MultipleChoice extends BaseComponent {
         });
     }
 
-    _updateSelectedOptions(selectedOptions, options) {
+    _updateSelectedOptions(selectedOptions, options=this.props.options) {
         this.setState({
             selectedOptions,
             dataSource: this.ds.cloneWithRows(options)
